@@ -79,6 +79,7 @@ function setActionOutputs(
   core.setOutput('architecture', selectedTag.architecture.join(', '))
   core.setOutput('last_updated', selectedTag.last_updated)
   core.setOutput('digest', selectedTag.digest)
+  core.setOutput('matched-groups', JSON.stringify(selectedTag.matched_groups))
   core.setOutput('results', JSON.stringify(matchingTags))
 }
 

@@ -35,6 +35,7 @@ export type TagResult = {
   architecture: string[]
   last_updated: string
   digest: string
+  matched_groups: (string | null)[]
 }
 
 /** Parses a Docker Hub repository input into namespace and repository parts.
@@ -158,6 +159,29 @@ function normalizeTag(tag: DockerHubTag): TagResult | null {
       (typeof tag.tag_last_pushed === 'string' && tag.tag_last_pushed) ||
       '',
     digest: typeof digest === 'string' ? digest : '',
+    matched_groups: [],
+  }
+}
+
+/** Extracts positional capture groups from a matched tag name.
+ *
+ * @param match - The regular expression match for a tag name.
+ * @returns Ordered capture group values, using null for unmatched optional groups.
+ */
+function getMatchedGroups(match: RegExpExecArray): (string | null)[] {
+  return match.slice(1).map((group) => group ?? null)
+}
+
+/** Adds regular expression capture groups to a tag result.
+ *
+ * @param tag - The tag result that matched the filter.
+ * @param match - The regular expression match for the tag name.
+ * @returns A tag result with matched capture groups attached.
+ */
+function withMatchedGroups(tag: TagResult, match: RegExpExecArray): TagResult {
+  return {
+    ...tag,
+    matched_groups: getMatchedGroups(match),
   }
 }
 
@@ -280,7 +304,13 @@ export async function fetchTags(
 export function filterTags(tags: TagResult[], filter: string): TagResult[] {
   const filterRegex = filter ? new RegExp(filter) : null
 
-  return (
-    filterRegex ? tags.filter((tag) => filterRegex.test(tag.name)) : tags
-  ).sort(compareTagsByLastUpdatedDesc)
+  const matchingTags = filterRegex
+    ? tags.flatMap((tag) => {
+        const match = filterRegex.exec(tag.name)
+
+        return match ? [withMatchedGroups(tag, match)] : []
+      })
+    : tags
+
+  return matchingTags.sort(compareTagsByLastUpdatedDesc)
 }

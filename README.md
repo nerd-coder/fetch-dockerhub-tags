@@ -22,6 +22,7 @@ Ever build some custom image that depends on a base image that is frequently upd
 - `architecture`: Architecture(s) of the Docker image (comma-separated if multiple).
 - `last_updated`: Timestamp of when the image was last updated.
 - `digest`: Digest of the Docker image.
+- `matched-groups`: JSON array of RegEx capture groups from the selected tag.
 - `results`: JSON array of all fetched tags with their details.
 
 ## Examples
@@ -55,7 +56,8 @@ full_size: 133MB
 architecture: amd64, arm64
 last_updated: 2024-06-01T12:00:00Z
 digest: sha256:abc123def456...
-results: '[{"name":"1.21.6-debian13","full_size":133000000,"architecture":["amd64","arm64"],"last_updated":"2024-06-01T12:00:00Z","digest":"sha256:abc123def456..."}, ...]'
+matched-groups: '["1.21.6"]'
+results: '[{"name":"1.21.6-debian13","full_size":133000000,"architecture":["amd64","arm64"],"last_updated":"2024-06-01T12:00:00Z","digest":"sha256:abc123def456...","matched_groups":["1.21.6"]}, ...]'
 ```
 
 ## Acknowledgments
