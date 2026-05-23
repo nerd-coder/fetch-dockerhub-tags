@@ -8,13 +8,12 @@ Ever build some custom image that depends on a base image that is frequently upd
 
 ## Inputs
 
-| Input    | Required | Example         | Description                                        |
-| -------- | -------- | --------------- | -------------------------------------------------- |
-| `repo`   | Yes      | `library/nginx` | Docker Hub repository to fetch tags from.          |
-| `filter` | No       | `main`          | Optional RegEx filter to apply when fetching tags. |
-| `token`  | No       | ``              | Optional token to authenticate with Docker Hub.    |
-
-
+| Input       | Required | Default | Example         | Description                                                  |
+| ----------- | -------- | ------- | --------------- | ------------------------------------------------------------ |
+| `repo`      | Yes      |         | `library/nginx` | Docker Hub repository to fetch tags from.                    |
+| `filter`    | No       |         | `main`          | Optional RegEx filter to apply when fetching tags.           |
+| `max_pages` | No       | `1`     | `-1`            | Maximum number of Docker Hub tag pages to fetch; `-1` = all. |
+| `token`     | No       |         |                 | Optional token to authenticate with Docker Hub.              |
 
 ## Outputs
 
@@ -44,6 +43,7 @@ With filter and token:
   with:
     repo: library/nginx
     filter: ^\d+\.\d+\.debian13$ # RegEx to match tags like "1.21.6-debian13"
+    max_pages: -1 # Fetch all pages when the match may not be on the first page
     token: ${{ secrets.DOCKERHUB_TOKEN }}
 ```
 

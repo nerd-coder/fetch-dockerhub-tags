@@ -13,6 +13,11 @@ inputs:
     description: |-
       Optional RegEx filter to apply when fetching tags.
     required: false
+  max_pages:
+    description: |-
+      Maximum number of Docker Hub tag pages to fetch. Use -1 to fetch all pages.
+    required: false
+    default: "1"
   token:
     description: |-
       Optional token to authenticate with Docker Hub.

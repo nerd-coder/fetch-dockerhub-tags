@@ -25,3 +25,4 @@ jobs:
         with:
           repo: mysten/sui-node
           filter: ^main-v([0-9]+[.][0-9]+[.][0-9]+)$
+          max_pages: -1
