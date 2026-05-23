@@ -1,0 +1,37 @@
+name: Fetch Docker Hub Tags
+description: A GitHub Action to fetch and list all tags of a specified Docker image from Docker Hub.
+branding:
+  icon: box
+  color: blue
+
+inputs:
+  repo:
+    description: |-
+      Docker Hub repository to fetch tags from.
+    required: true
+  filter:
+    description: |-
+      Optional RegEx filter to apply when fetching tags.
+    required: false
+  token:
+    description: |-
+      Optional token to authenticate with Docker Hub.
+    required: false
+
+outputs:
+  name:
+    description: Name of the Docker image.
+  full_size:
+    description: Full size of the Docker image.
+  architecture:
+    description: Architecture(s) of the Docker image (comma-separated if multiple).
+  last_updated:
+    description: Timestamp of when the image was last updated.
+  digest:
+    description: Digest of the Docker image.
+  results:
+    description: JSON array of all matching Docker image tags.
+
+runs:
+  using: node24
+  main: dist/index.mjs
