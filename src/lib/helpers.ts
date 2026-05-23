@@ -33,7 +33,7 @@ export function logError(message: string): void {
  * @returns Nothing.
  */
 export function logWarn(message: string): void {
-  console.warn(styleText('yellow', message))
+  console.warn(styleText('yellow', `Warning: ${message}`))
 }
 
 /** Prints a colored informational message to the console.

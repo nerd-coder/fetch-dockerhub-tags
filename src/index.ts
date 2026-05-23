@@ -6,7 +6,7 @@ import {
   parseRepo,
   type TagResult,
 } from './lib/dockerhub.ts'
-import { logError, logStep, logSuccess } from './lib/helpers.ts'
+import { logError, logStep, logSuccess, logWarn } from './lib/helpers.ts'
 
 type ActionInputs = {
   repo: string
@@ -34,19 +34,25 @@ function getActionInputs(): ActionInputs {
  * @param namespace - The Docker Hub namespace used in the request.
  * @param repository - The Docker Hub repository used in the request.
  * @param filter - The optional tag filter.
+ * @param fetchedTagCount - The number of fetched Docker Hub tag records.
  * @returns The selected newest matching tag.
  */
 function selectTag(
   tags: TagResult[],
   namespace: string,
   repository: string,
-  filter: string
+  filter: string,
+  fetchedTagCount: number
 ): TagResult {
   const selectedTag = tags[0]
 
   if (selectedTag) {
     return selectedTag
   }
+
+  logWarn(
+    `No image matched after fetching ${fetchedTagCount} image tag(s) from ${namespace}/${repository}.`
+  )
 
   throw new Error(
     filter
@@ -95,7 +101,8 @@ async function main(): Promise<void> {
     matchingTags,
     namespace,
     repository,
-    inputs.filter
+    inputs.filter,
+    tags.length
   )
 
   logSuccess(`Selected Docker Hub tag ${selectedTag.name}`)
