@@ -31,7 +31,7 @@ Basic usage:
 
 ```yaml
 - name: 🔎 Fetch Docker Hub Tags
-  uses: Toanzz/fetch-dockerhub-tags@v1
+  uses: nerd-coder/fetch-dockerhub-tags@v1
   with:
     repo: library/nginx
 ```
@@ -40,7 +40,7 @@ With filter and token:
 
 ```yaml
 - name: 🔎 Fetch Docker Hub Tags
-  uses: Toanzz/fetch-dockerhub-tags@v1
+  uses: nerd-coder/fetch-dockerhub-tags@v1
   with:
     repo: library/nginx
     filter: ^\d+\.\d+\.debian13$ # RegEx to match tags like "1.21.6-debian13"
