@@ -4,7 +4,6 @@
     "types": ["bun"],
     "module": "ESNext",
     "target": "ESNext",
-    "strict": true,
     "skipLibCheck": true,
     "noEmit": true,
     "verbatimModuleSyntax": true,
